@@ -1,4 +1,4 @@
-Neural Identification for Control
+# Neural Identification for Control
 
 ## Installation
 
