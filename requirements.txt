@@ -3,4 +3,6 @@ numpy
 matplotlib
 sympy
 scipy
+future
+Pillow
 tensorboard==1.14.0
