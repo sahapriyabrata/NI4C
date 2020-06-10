@@ -39,7 +39,7 @@ def get_xy_coords(p, lengths=None):
     y = np.hstack([zeros, -lengths * np.cos(p[:, :n])])
     return np.cumsum(x, 1), np.cumsum(y, 1)
 
-def animate_pendulum(p, dt, target=None, interval=1000, fps=30, dpi=500, savepath='./demo.mp4'):
+def animate_pendulum(p, dt, target=None, interval=1000, fps=30, dpi=500, savepath='./demo'):
     t = np.arange(len(p)) * dt
     x, y = get_xy_coords(p)
 
