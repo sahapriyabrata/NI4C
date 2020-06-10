@@ -63,4 +63,4 @@ dictionary['grads_forced'] = grads_forced
 dictionary['forces'] = forces
 np.save(savepath, dictionary)
 
-animate_pendulum(states[np.random.randint(int(n_seqs))][::2], dt=0.01, savepath=args.savepath+'/demo.mp4')
+animate_pendulum(states[np.random.randint(int(n_seqs))][::2], dt=0.01, savepath=args.savepath+'/demo')
