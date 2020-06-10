@@ -69,7 +69,9 @@ Xscale = numpy2torch(Xscale)
 yscale = numpy2torch(yscale)
 
 # Define network
-net = NI4C(n_link=n_link, Xscale=Xscale, yscale=yscale)
+alpha = 5e-1
+Q = torch.diagflat(torch.Tensor([0.60, 0.32, 0.045, 0.035]))
+net = NI4C(n_link=n_link, alpha=alpha, Q=Q, Xscale=Xscale, yscale=yscale)
 print(net)
 checkpoint = torch.load(args.NNg)
 checkpoint = {'nn_g.' + k : v for k, v in checkpoint.items()}

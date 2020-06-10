@@ -86,17 +86,19 @@ class NN_pi(nn.Module):
         return u
 
 class NI4C(nn.Module):
-    def __init__(self, n_link=2, alpha=5e-1, Q = None, Xscale=None, yscale=None):
+    def __init__(self, n_link=2, alpha=5e-1, Q=None, Xscale=None, yscale=None):
         super(NI4C, self).__init__()
-
-        self.n_link = n_link
-        self.alpha = alpha
-        if Q is None:
-           self.Q = torch.eye(2 * n_link)
 
         self.nn_g = NN_g(n_link=n_link, hid_dim=64, n_layers=3)
         self.nn_P = NN_P(n_link=n_link, hid_dim=64, n_layers=3) 
         self.nn_pi = NN_pi(n_link=n_link, hid_dim=64, n_layers=3) 
+
+        self.alpha = alpha
+
+        if Q is None:
+           self.Q = torch.eye(2 * n_link)
+        else:
+           self.Q = Q
 
         if Xscale is None:
             self.Xscale = torch.ones([1, 2 * n_link])
