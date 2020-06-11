@@ -24,3 +24,13 @@ To train NN_g, run:
 
 To train NN_P and NN_pi, run:   
 `python train_NNpiP.py --NNg <path to trained NN_g> --dataset <path to dataset> --savepath <path to save models>`
+
+### Evaluation
+
+Pretrained models for 2-link pendulum are given in **saved_models** directory  
+
+For a demo, run:  
+`python test.py --modelpath <path to a trained model NI4C> --savepath <path to save result>` 
+
+To verify a learned control law, run:  
+`python controller_verification.py --modelpath <path to a trained model NI4C> --init <grid/random> --savepath <path to save models>`
