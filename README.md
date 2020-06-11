@@ -8,3 +8,6 @@ Compatible with Python 3.5 and Pytorch 1.1.0
 2. Source the virtual environment by `source env/bin/activate`
 3. Install requirements by `pip install -r ./requirements.txt`
 
+## Training
+
+To train NN_g, run `python train_NNg.py`
