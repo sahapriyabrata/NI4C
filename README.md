@@ -14,13 +14,13 @@ Go to **nLinkPendulum** directory: `cd nLinkPendulum`
 
 # Dataset generation
 
-To generate dataset, run
-`python dataGen.py --set <train/val> --savepath <path_to_save_dataset>`
+To generate dataset, run: \ 
+`python dataGen.py --set <train/val> --savepath <path to save dataset>`
 
 # Training
 
-To train NN_g, run 
-`python train_NNg.py --dataset <path_to_dataset> --savepath <path_to_save_models>`
+To train NN_g, run: \ 
+`python train_NNg.py --dataset <path to dataset> --savepath <path to save models>`
 
-To train NN_P and NN_pi, run
-`python train_NNpiP.py --NNg <path to trained NN_g> --dataset <path_to_dataset> --savepath <path_to_save_models>`
+To train NN_P and NN_pi, run: \ 
+`python train_NNpiP.py --NNg <path to trained NN_g> --dataset <path to dataset> --savepath <path to save_models>`
