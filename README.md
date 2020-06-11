@@ -10,17 +10,17 @@ Compatible with Python 3.5 and Pytorch 1.1.0
 
 ## Usage
 
-Go to nLinkPendulum directory: `cd nLinkPendulum`
+Go to **nLinkPendulum** directory: `cd nLinkPendulum`
 
 # Dataset generation
 
 To generate dataset, run
-`python dataGen --set <train/val>
+`python dataGen.py --set <train/val> --savepath <path_to_save_dataset>`
 
 # Training
 
 To train NN_g, run 
-`python train_NNg.py`
+`python train_NNg.py --dataset <path_to_dataset> --savepath <path_to_save_models>`
 
 To train NN_P and NN_pi, run
-`python train_NNpiP.py`
+`python train_NNpiP.py --NNg <path to trained NN_g> --dataset <path_to_dataset> --savepath <path_to_save_models>`
