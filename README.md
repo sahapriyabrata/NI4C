@@ -33,4 +33,4 @@ For a demo, run:
 `python test.py --modelpath <path to a trained model NI4C> --savepath <path to save result>` 
 
 To verify a learned control law, run:  
-`python controller_verification.py --modelpath <path to a trained model NI4C> --init <grid/random> --savepath <path to save models>`
+`python controller_verification.py --modelpath <path to a trained model NI4C> --init <grid/random> --savepath <path to save result>`
