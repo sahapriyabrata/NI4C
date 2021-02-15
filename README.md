@@ -47,8 +47,3 @@ For a demo, run:
 
 To verify a learned control law, run:  
 `python controller_verification.py --modelpath <path to a trained model NI4C> --init <grid/random> --savepath <path to save result>`
-
-
-## Demo
-#### 2-link pendulum balancing:
-<img src="https://github.com/sahapriyabrata/NI4C/blob/master/videos/2link.gif" width="500">
