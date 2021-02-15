@@ -13,7 +13,7 @@ from models import NI4C
 parser = argparse.ArgumentParser(description='Paths')
 parser.add_argument('--modelpath', default=None, help='Path to any pretrained model')
 parser.add_argument('--savepath', default='./results', help='Path to save results')
-parser.add_argument('--which', default=1, help='required only for grid initial points. which link?')
+parser.add_argument('--which', default=1, help='which link?')
 args = parser.parse_args()
 
 if torch.cuda.is_available():
