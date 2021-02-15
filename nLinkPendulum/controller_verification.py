@@ -69,7 +69,7 @@ for n in range(n_samples):
         x_torch = numpy2torch(x.copy())
         with torch.no_grad():
             _, u, V = net(x_torch.unsqueeze(0))
-            u = torch.clamp(u, -7.5, 7.5)               # Limit the amount of control input
+            u = torch.clamp(u, -10., 10.)               # Limit the amount of control input
         u = torch2numpy(u[0])
 
         times = np.arange(2) * dt
@@ -103,15 +103,11 @@ for n in range(n_samples):
 
 ROApoints = np.array(ROApoints)
 grads = np.array(grads)
-np.save(os.path.join(args.savepath, 'grads.npy'), grads)
-np.save(os.path.join(args.savepath, 'roa.npy'), ROApoints)
 
 X = init_states[:, which].reshape(n_grid, n_grid)
 Y = init_states[:, which+n_link].reshape(n_grid, n_grid)
 U = grads[:, which].reshape(n_grid, n_grid)
 V = grads[:, which+n_link].reshape(n_grid, n_grid)
-
-#Trjs = np.load(os.path.join(os.path.dirname(args.savepath), 'trj.npy'))
 
 fig = plt.figure(figsize=(14, 6))
 
