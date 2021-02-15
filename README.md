@@ -1,6 +1,18 @@
 # Neural Identification for Control
 Repository for our work [**Neural Identification for Control**](https://arxiv.org/abs/2009.11782)
 
+If you find our work useful, please don't forget to cite. 
+```
+@misc{saha2020neural,
+      title={Neural Identification for Control}, 
+      author={Priyabrata Saha and Magnus Egerstedt and Saibal Mukhopadhyay},
+      year={2020},
+      eprint={2009.11782},
+      archivePrefix={arXiv},
+      primaryClass={eess.SY}
+}
+```
+
 ## Installation
 
 Compatible with Python 3.5 and Pytorch 1.1.0
