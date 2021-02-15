@@ -105,6 +105,8 @@ criterion = nn.MSELoss()
 # Training and validation
 writer = SummaryWriter()
 
+print(len(train_X))
+
 num_epochs = 300
 batch_size = 32
 train_steps = len(train_X)//batch_size
