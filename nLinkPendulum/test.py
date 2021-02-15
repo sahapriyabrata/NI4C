@@ -26,7 +26,7 @@ dt = 0.01
 n_link = 2
 
 # Initial state
-np.random.seed(0)
+np.random.seed(1)
 init_state = 2 * np.random.rand(2 * n_link) - 1
 init_state[:n_link] *= np.pi
 
@@ -57,12 +57,10 @@ Vs = []
 t = 0
 x = init_state
 while t < 2000:
-     print(t)
-
      x_torch = numpy2torch(x.copy())
      with torch.no_grad():
          _, u, V = net(x_torch.unsqueeze(0))
-         u = torch.clamp(u, -10, 10)               # Limit the amount of control input
+         u = torch.clamp(u, -10., 10.)               # Limit the amount of control input
      u = torch2numpy(u[0])
 
      times = np.arange(2) * dt
@@ -77,6 +75,8 @@ while t < 2000:
      Trj.append(x.copy())
 
      Vs.append(V.item())
+
+     print('t = {}, V = {}'.format(t, V.item()))
 
      t += 1
  
