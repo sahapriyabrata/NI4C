@@ -1,4 +1,5 @@
 # Neural Identification for Control
+Repository for our work [**Neural Identification for Control**](https://arxiv.org/abs/2009.11782)
 
 ## Installation
 
