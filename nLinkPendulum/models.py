@@ -1,9 +1,9 @@
 import torch
 import torch.nn as nn
 
-class activation(nn.Module):
+class ReHU(nn.Module):
     def __init__(self):
-        super(activation, self).__init__()
+        super(ReHU, self).__init__()
         self.d = 1
 
     def forward(self, x):
@@ -13,7 +13,7 @@ class activation(nn.Module):
         return y
 
 class MLP(nn.Module):
-    def __init__(self, in_dim=2, out_dim=2, hid_dim=16, n_layers=1):
+    def __init__(self, in_dim=2, out_dim=2, hid_dim=16, n_layers=1, activation=nn.ReLU):
         super(MLP, self).__init__()
 
         self.in_dim = in_dim
@@ -81,7 +81,8 @@ class NN_pi(nn.Module):
 
     def forward(self, x):
         s = (torch.norm(x, dim=-1, keepdim=True) ** 2) / (self.lambd + (torch.norm(x, dim=-1, keepdim=True) ** 2))
-        u =  s * self.mlp(x)
+        u = s * self.mlp(x)
+        u = torch.tanh(u) * 20
 
         return u
 
