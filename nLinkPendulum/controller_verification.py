@@ -13,7 +13,6 @@ from models import NI4C
 parser = argparse.ArgumentParser(description='Paths')
 parser.add_argument('--modelpath', default=None, help='Path to any pretrained model')
 parser.add_argument('--savepath', default='./results', help='Path to save results')
-parser.add_argument('--init', default='grid', help='initial points? grid : random')
 parser.add_argument('--which', default=1, help='required only for grid initial points. which link?')
 args = parser.parse_args()
 
@@ -48,28 +47,24 @@ domain = np.ones(2 * n_link)
 domain[:n_link] *= np.pi
 domain[n_link:] *= 10.
 
-if args.init == 'grid':
-    n_grid = 10
-    n_samples = n_grid ** 2
-    theta = np.linspace(-1., 1., n_grid) * domain[which]
-    omega = np.linspace(-1., 1., n_grid) * domain[n_link+which]
-    mesh = np.meshgrid(theta, omega)
-    init_states = np.zeros([n_samples, 2 * n_link])
-    init_states[:, which] = mesh[0].reshape(-1)
-    init_states[:, n_link+which] = mesh[1].reshape(-1)
-else: # random samples
-    n_samples = 100
-    init_states = 2 * np.random.rand(n_samples, 2 * n_link) - 1
-    init_states *= domain[np.newaxis, :]
+n_grid = 10 # number of grid points in each direction
+n_samples = n_grid ** 2
+theta = np.linspace(-1., 1., n_grid) * domain[which]
+omega = np.linspace(-1., 1., n_grid) * domain[n_link+which]
+mesh = np.meshgrid(theta, omega)
+init_states = np.zeros([n_samples, 2 * n_link])
+init_states[:, which] = mesh[0].reshape(-1)
+init_states[:, n_link+which] = mesh[1].reshape(-1)
 
 n_steps = 2000
-Trjs = []
+ROApoints = []
+grads = []
 for n in range(n_samples):
     print("Sample # {}".format(n))
     x = init_states[n]
     Trj = [x.copy()]
     running_V = 100.
-    valid = True
+    inROA = True
     for t in range(n_steps):
         x_torch = numpy2torch(x.copy())
         with torch.no_grad():
@@ -83,12 +78,15 @@ for n in range(n_samples):
         y = odeint(system.gradient, x_orig, times, args=(u,))
         y = y[1]
         y[:n_link] = wrapToPi(y[:n_link] - target)
+
+        if t == 0:
+            grads.append(system.gradient(x_orig, times, u)) 
  
         within = (y.copy() <= domain).all()
         within = within & (y.copy() >= -domain).all()
 
         if not within:
-            valid = False
+            inROA = False
             break
 
         running_V = 0.9 * running_V + 0.1 * V.item()
@@ -96,33 +94,46 @@ for n in range(n_samples):
         x = y
  
         Trj.append(x.copy())
-    
-    if (running_V > 1e-2):
-        valid = False
+ 
+    if (running_V > 1e-3):
+        inROA = False
 
-    if valid:
-        Trjs.append(Trj)
+    if inROA:
+        ROApoints.append(init_states[n])
 
-Trjs = np.array(Trjs)
+ROApoints = np.array(ROApoints)
+grads = np.array(grads)
+np.save(os.path.join(args.savepath, 'grads.npy'), grads)
+np.save(os.path.join(args.savepath, 'roa.npy'), ROApoints)
 
-if args.init == 'grid':
-    plt.scatter(Trjs[:, 0, which], Trjs[:, 0, n_link+which], marker='x')
-    plt.axis([-np.pi, np.pi, -10., 10.])
-    plt.gca().set_aspect(1./plt.gca().get_data_ratio(), 'box')
-    plt.xlabel('angular position (rad)', fontsize=14)
-    plt.ylabel('angular velocity (rad/s)', fontsize=14)
-    plt.xticks(fontsize=14)
-    plt.yticks(fontsize=14)
-    plt.savefig(os.path.join(args.savepath, 'roa{}.png'.format(which)))
-    plt.close()
-else:  
-    for i in range(n_link):
-        plt.scatter(Trjs[:, 0, i], Trjs[:, 0, n_link+i], marker='x')
-        plt.axis([-np.pi, np.pi, -10., 10.])
-        plt.gca().set_aspect(1./plt.gca().get_data_ratio(), 'box')
-        plt.xlabel('angular position (rad)', fontsize=14)
-        plt.ylabel('angular velocity (rad/s)', fontsize=14)
-        plt.xticks(fontsize=14)
-        plt.yticks(fontsize=14)
-        plt.savefig(os.path.join(args.savepath, 'roa{}.png'.format(i)))
-        plt.close()
+X = init_states[:, which].reshape(n_grid, n_grid)
+Y = init_states[:, which+n_link].reshape(n_grid, n_grid)
+U = grads[:, which].reshape(n_grid, n_grid)
+V = grads[:, which+n_link].reshape(n_grid, n_grid)
+
+#Trjs = np.load(os.path.join(os.path.dirname(args.savepath), 'trj.npy'))
+
+fig = plt.figure(figsize=(14, 6))
+
+plt.subplot(1, 2, 1)
+plt.scatter(ROApoints[:, which], ROApoints[:, n_link+which], marker='x')
+plt.axis([-domain[which], domain[which], -domain[n_link+which], domain[n_link+which]])
+plt.gca().set_aspect(1./plt.gca().get_data_ratio(), 'box')
+plt.xlabel('angular position (rad)', fontsize=14)
+plt.ylabel('angular velocity (rad/s)', fontsize=14)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.title('points $\in$ ROA', fontsize=14)
+
+plt.subplot(1, 2, 2)
+plt.streamplot(X,Y,U,V, density = 1., linewidth = 1)
+plt.axis([-domain[which], domain[which], -domain[n_link+which], domain[n_link+which]])
+plt.gca().set_aspect(1./plt.gca().get_data_ratio(), 'box')
+plt.xlabel('angular position (rad)', fontsize=14)
+plt.ylabel('angular velocity (rad/s)', fontsize=14)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.title('phase potrait', fontsize=14)
+
+plt.savefig(os.path.join(args.savepath, 'roa{}.png'.format(which)))
+plt.close()
