@@ -52,3 +52,4 @@ To verify a learned control law, run:
 ## Demo
 #### 2-link pendulum balancing:
 ![2-link pendulum balancing](https://github.com/sahapriyabrata/NI4C/blob/master/videos/2link.gif&s=200)
+<img src="https://github.com/sahapriyabrata/NI4C/blob/master/videos/2link.gif" width="300">
