@@ -51,4 +51,4 @@ To verify a learned control law, run:
 
 ## Demo
 #### 2-link pendulum balancing:
-![2-link pendulum balancing](https://github.com/sahapriyabrata/MagNet/blob/master/videos/Bouncing-balls.gif)
+![2-link pendulum balancing](https://github.com/sahapriyabrata/NI4C/blob/master/videos/2link.gif)
