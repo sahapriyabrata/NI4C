@@ -40,7 +40,7 @@ To train NN_P and NN_pi, run:
 
 ### Evaluation
 
-Pretrained models for 2-link pendulum are given in **saved_models** directory  
+Pretrained models for 2-link pendulum are provided in **saved_models** directory  
 
 For a demo, run:  
 `python test.py --modelpath <path to a trained model NI4C> --savepath <path to save result>` 
