@@ -1,5 +1,5 @@
 # Neural Identification for Control
-Repository for our work [**Neural Identification for Control**](https://arxiv.org/abs/2009.11782)
+Repository  our work [**Neural Identification for Control**](https://arxiv.org/abs/2009.11782)
 
 If you find our work useful, please don't forget to cite. 
 ```
