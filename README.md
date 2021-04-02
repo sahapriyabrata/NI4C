@@ -3,14 +3,15 @@ Repository for our work [**Neural Identification for Control**](https://arxiv.or
 
 If you find our work useful, please don't forget to cite. 
 ```
-@misc{saha2020neural,
-      title={Neural Identification for Control}, 
-      author={Priyabrata Saha and Magnus Egerstedt and Saibal Mukhopadhyay},
-      year={2020},
-      eprint={2009.11782},
-      archivePrefix={arXiv},
-      primaryClass={eess.SY}
-}
+@ARTICLE{9384260,
+  author={P. {Saha} and M. {Egerstedt} and S. {Mukhopadhyay}},
+  journal={IEEE Robotics and Automation Letters}, 
+  title={Neural Identification for Control}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={1-1},
+  doi={10.1109/LRA.2021.3068099}}
 ```
 
 ## Installation
